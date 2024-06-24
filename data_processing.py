@@ -22,3 +22,14 @@ def process_image(label_image_path):
     print("Unique pixel values in label image:", unique)
     print("Counts for each value:", counts)
     return label_image, label_image_array
+
+def get_image_paths(input_dir, target_dir) -> tuple[list, list]:
+    input_img_paths = sorted([ os.path.join(input_dir, fname)
+                        for fname in os.listdir(input_dir)
+                        if fname.endswith('pre_disaster.png')])
+
+    target_img_paths = sorted([ os.path.join(target_dir, fname)
+                            for fname in os.listdir(target_dir)
+                            if fname.endswith('pre_disaster_target.png')])
+    
+    return input_img_paths, target_img_paths
