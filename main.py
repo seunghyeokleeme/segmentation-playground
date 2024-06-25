@@ -1,4 +1,4 @@
-from data_processing import extract_zip, process_image, get_image_paths
+from data_processing import extract_zip, process_image, get_image_paths, show
 
 def main():
     input_dir = 'train/images'
@@ -19,6 +19,8 @@ def main():
     print(target_img_paths[7])
 
     label_image, label_image_array = process_image(target_img_paths[7])
+
+    show(input_img_paths[7], target_img_paths[7])
     
 
 if __name__ == "__main__":
