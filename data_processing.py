@@ -2,7 +2,7 @@ import os
 from PIL import Image, ImageOps
 import numpy as np
 import zipfile
-from tensorflow.keras.preprocessing.image import load_img, img_to_array
+from tensorflow.keras.preprocessing.image import load_img
 
 def extract_zip(zip_file_path, extract_to_path):
     """압축풀기"""
