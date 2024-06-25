@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import random
 from data_processing import extract_zip, process_image, get_image_paths, show
@@ -49,6 +50,13 @@ def main():
         print(f"First Validation Input: {validation_sets[i][0][0]}")
         print(f"First Validation Target: {validation_sets[i][1][0]}")
         print()
+
+    # 체크포인트 및 백업 기록 폴더 생성
+    result_dir = "path_to_your_result"
+    checkpoint_dir = f"{result_dir}/model" #.h5파일 담을 폴더 설정
+    history_dir = f"{result_dir}/histories" # history 파일 담을 폴더 설정
+    os.makedirs(checkpoint_dir, exist_ok=True)
+    os.makedirs(history_dir, exist_ok=True)
     
 
 if __name__ == "__main__":
