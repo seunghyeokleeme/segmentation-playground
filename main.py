@@ -5,6 +5,8 @@ from data_processing import extract_zip, process_image, get_image_paths, show
 from dataset import xBD
 from model import get_model
 from k_fold import create_kfold_sets
+from tensorflow.keras.callbacks import CSVLogger
+from tensorflow.keras.models import load_model
 
 def main():
     input_dir = 'train/images'
@@ -57,6 +59,28 @@ def main():
     history_dir = f"{result_dir}/histories" # history 파일 담을 폴더 설정
     os.makedirs(checkpoint_dir, exist_ok=True)
     os.makedirs(history_dir, exist_ok=True)
+
+    # 모델 파일 경로 및 초기 에포크와 최소 val_loss 설정
+    model_path = f"{checkpoint_dir}/model_epoch_401.h5"
+    initial_epoch = 0  # 사용자가 직접 지정
+    last_val_loss = 1 # 사용자가 직접 지정
+
+    # 모델 로드
+    if os.path.exists(model_path):
+        best_model = load_model(model_path)
+    else:
+        best_model = get_model(img_size, num_classes)
+        best_model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['accuracy'])
+        initial_epoch = 0
+        last_val_loss = np.inf  # 초기값 설정
+
+    # CSV 파일 이름 생성
+    history_file = os.path.join(history_dir, 'training_history.csv')
+
+    # CSVLogger 설정 (새로운 파일 생성)
+    csv_logger = CSVLogger(history_file, append=True)
+
+    best_model.summary()
     
 
 if __name__ == "__main__":
