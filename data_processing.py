@@ -1,8 +1,7 @@
 import os
-from PIL import Image as PILImage, ImageOps
+from PIL import Image, ImageOps
 import numpy as np
 import zipfile
-from IPython.display import Image as displayImage, display
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 
 def extract_zip(zip_file_path, extract_to_path):
@@ -14,7 +13,7 @@ def extract_zip(zip_file_path, extract_to_path):
 def process_image(label_image_path):
     """단일 사진 클래스 개수 확인."""
     # 이미지 로드 및 nupmy 배열로 변환
-    label_image = PILImage.open(label_image_path)
+    label_image = Image.open(label_image_path)
     label_image_array = np.array(label_image)
 
     # 레이블 이미지의 고유값과 분포 시각화
@@ -37,5 +36,7 @@ def get_image_paths(input_dir, target_dir) -> tuple[list, list]:
     return input_img_paths, target_img_paths
 
 def show(input_image_path, target_image_path):
-    print("show images")
-    pass
+    input_img = Image.open(input_image_path)
+    target_img = ImageOps.autocontrast(load_img(target_image_path))
+    input_img.show()
+    target_img.show()
