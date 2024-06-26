@@ -3,7 +3,8 @@ from tensorflow import keras
 from tensorflow.keras.preprocessing.image import load_img
 
 class xBD(keras.utils.Sequence):
-  def __init__(self, batch_size, img_size, input_img_paths, target_img_paths):
+  def __init__(self, batch_size, img_size, input_img_paths, target_img_paths, **kwargs):
+    super().__init__(**kwargs)  # 경고 메시지를 해결하기 위한 코드 추가
     self.batch_size = batch_size
     self.img_size = img_size
     self.input_img_paths = input_img_paths
