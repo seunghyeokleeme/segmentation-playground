@@ -7,6 +7,7 @@ from model import get_model
 from k_fold import create_kfold_sets
 from tensorflow.keras.callbacks import CSVLogger
 from tensorflow.keras.models import load_model
+from plot import plot_history
 
 def main():
     input_dir = 'train/images'
@@ -81,6 +82,38 @@ def main():
     csv_logger = CSVLogger(history_file, append=True)
 
     best_model.summary()
+
+    # 학습 설정
+    total_epochs = epochs_per_fold * num_folds
+
+    # 데이터셋 분할 및 학습
+    for epoch in range(initial_epoch, total_epochs):
+        fold = epoch % num_folds
+
+        train_gen = xBD(batch_size, img_size, train_input_sets[fold], train_target_sets[fold])
+        val_gen = xBD(batch_size, img_size, validation_sets[fold][0], validation_sets[fold][1])
+
+        print(f"Epoch {epoch}/{total_epochs}")
+        history = best_model.fit(train_gen, validation_data=val_gen, initial_epoch=epoch, epochs=epoch+1, verbose=1, callbacks=[csv_logger])
+        # 손실 및 정확도 출력
+        train_loss = history.history['loss'][0]
+        train_acc = history.history['accuracy'][0]
+        val_loss = history.history['val_loss'][0]
+        val_acc = history.history['val_accuracy'][0]
+
+        # 결과를 명확히 출력
+        print(f"- loss: {train_loss:.4f} - accuracy: {train_acc:.4f} - val_loss: {val_loss:.4f} - val_accuracy: {val_acc:.4f}")
+
+        # val_loss가 최소일때마다 저장하기
+        current_val_loss = history.history['val_loss'][0]
+        if current_val_loss < last_val_loss:
+            last_val_loss = current_val_loss
+            model_filename = os.path.join(checkpoint_dir, f'model_epoch_{epoch}.h5')
+            best_model.save(model_filename)
+            print(f"val_loss improved to {current_val_loss:.4f}, saving model to {model_filename}")
+
+    # CSV 파일 로드
+    plot_history(history_file)
     
 
 if __name__ == "__main__":

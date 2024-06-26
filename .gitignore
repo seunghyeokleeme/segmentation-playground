@@ -234,3 +234,5 @@ $RECYCLE.BIN/
 # 데이터
 train/
 origin.ipynb
+histories/
+model/
