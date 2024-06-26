@@ -2,12 +2,19 @@ import os
 from PIL import Image, ImageOps
 import numpy as np
 import zipfile
-from tensorflow.keras.preprocessing.image import load_img
+from tensorflow.keras.preprocessing.image import load_img, array_to_img
+import tarfile
 
 def extract_zip(zip_file_path, extract_to_path):
-    """압축풀기"""
+    """zip 압축풀기"""
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
         zip_ref.extractall(extract_to_path)
+    print(f"{extract_to_path} 경로에 압축을 해제합니다.")
+
+def extract_tar(tar_file_path, extract_to_path):
+    """tar 압축풀기"""
+    with tarfile.open(tar_file_path, 'r') as tar:
+        tar.extractall(extract_to_path)
     print(f"{extract_to_path} 경로에 압축을 해제합니다.")
 
 def process_image(label_image_path):
@@ -40,3 +47,10 @@ def show(input_image_path, target_image_path):
     target_img = ImageOps.autocontrast(load_img(target_image_path))
     input_img.show()
     target_img.show()
+
+def show_predict(index, input_image_paths, target_image_paths, predict_image_paths):
+    show(input_image_paths[index], target_image_paths[index])
+    mask = predict_image_paths[index] > 0.5 # sigmoid 사용시
+    predict_img = ImageOps.autocontrast(array_to_img(mask))
+    predict_img.show()
+    
