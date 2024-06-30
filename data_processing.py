@@ -48,8 +48,7 @@ def show(input_image_path, target_image_path):
     input_img.show()
     target_img.show()
 
-def show_predict(index, input_image_paths, target_image_paths, predict_image_paths):
-    show(input_image_paths[index], target_image_paths[index])
+def show_predict(index ,predict_image_paths):
     mask = predict_image_paths[index] > 0.5 # sigmoid 사용시
     predict_img = ImageOps.autocontrast(array_to_img(mask))
     predict_img.show()
