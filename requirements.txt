@@ -43,7 +43,7 @@ Pygments==2.18.0
 pyparsing==3.1.2
 python-dateutil==2.9.0.post0
 pytz==2024.1
-requests==2.32.3
+requests==2.32.4
 rich==13.7.1
 six==1.16.0
 stack-data==0.6.3
