@@ -36,7 +36,7 @@ parso==0.8.4
 pexpect==4.9.0
 pillow==10.3.0
 prompt_toolkit==3.0.47
-protobuf==4.25.3
+protobuf==4.25.8
 ptyprocess==0.7.0
 pure-eval==0.2.2
 Pygments==2.18.0
