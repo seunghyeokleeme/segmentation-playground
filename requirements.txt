@@ -19,7 +19,7 @@ jedi==0.19.1
 keras==3.12.0
 kiwisolver==1.4.5
 libclang==18.1.1
-Markdown==3.6
+Markdown==3.8.1
 markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 matplotlib==3.9.0
